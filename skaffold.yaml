@@ -1,0 +1,19 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+deploy:
+  kubectl:
+    manifests:
+      - ./infra/k8s/*
+build:
+  local:
+    push: false
+  artifacts:
+    - image: darlanhms/auth
+      context: .
+      docker:
+        dockerfile: services/auth/Dockerfile
+      sync:
+        manual:
+          - dest: .
+            src: services/auth/src/**/*.ts
+
