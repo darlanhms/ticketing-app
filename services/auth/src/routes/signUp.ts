@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import { body, validationResult } from 'express-validator';
+import BadRequestError from '../errors/badRequestError';
 import RequestValidationError from '../errors/requestValidationError';
+import { User } from '../models/user';
 
 const signUpRouter = Router();
 
@@ -21,9 +23,20 @@ signUpRouter.post('/signup', ...signUpRouterValidations, async (req, res) => {
 
   const { email, password } = req.body;
 
-  console.info('Creating a user...');
+  const emailAlreadyExists = await User.findOne({ email });
 
-  return res.send({ email, password });
+  if (emailAlreadyExists) {
+    throw new BadRequestError('Email already in use');
+  }
+
+  const user = User.build({
+    password,
+    email,
+  });
+
+  await user.save();
+
+  return res.json(user);
 });
 
 export default signUpRouter;
