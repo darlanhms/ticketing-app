@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import mongoose from 'mongoose';
 import { Password } from '../services/password';
@@ -16,16 +17,28 @@ interface UserDocument extends mongoose.Document {
   password: string;
 }
 
-const userSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    required: true,
+const userSchema = new mongoose.Schema(
+  {
+    email: {
+      type: String,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
   },
-  password: {
-    type: String,
-    required: true,
+  {
+    toJSON: {
+      transform(doc, ret) {
+        ret.id = doc._id;
+        delete ret._id;
+        delete ret.password;
+        delete ret.__v;
+      },
+    },
   },
-});
+);
 
 userSchema.statics.build = (props: UserProps) => {
   return new User(props);
