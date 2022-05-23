@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { body, validationResult } from 'express-validator';
+import jwt from 'jsonwebtoken';
 import BadRequestError from '../errors/badRequestError';
 import RequestValidationError from '../errors/requestValidationError';
 import { User } from '../models/user';
@@ -35,6 +36,16 @@ signUpRouter.post('/signup', ...signUpRouterValidations, async (req, res) => {
   });
 
   await user.save();
+
+  const userJwt = jwt.sign(
+    {
+      id: user.id,
+      email: user.email,
+    },
+    process.env.JWT_KEY as string,
+  );
+
+  req.session = { jwt: userJwt };
 
   return res.json(user);
 });
