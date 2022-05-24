@@ -12,6 +12,7 @@ const config: Config.InitialOptions = {
   testRegex: '.(spec|test).(ts|tsx)$',
   roots: ['<rootDir>/src'],
   clearMocks: true,
+  testTimeout: 10000,
 };
 
 export default config;
