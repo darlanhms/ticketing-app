@@ -2,7 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import request from 'supertest';
 import app from '../../app';
 
-describe('Sign in route', () => {
+describe('Sign out route', () => {
   it('clears the cookie after signing out', async () => {
     await request(app)
       .post('/api/users/signup')

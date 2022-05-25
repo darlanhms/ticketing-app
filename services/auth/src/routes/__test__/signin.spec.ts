@@ -39,12 +39,9 @@ describe('Sign in route', () => {
       })
       .expect(200);
 
-    const response = await request(app).post('/api/users/signin').send({
-      email: 'test@test.com',
-      password: 'password',
-    });
+    const response = await request(app).post('/api/users/signout').send();
 
     expect(response.status).toBe(StatusCodes.OK);
-    expect(response.get('Set-Cookie')).toBeDefined();
+    expect(response.get('Set-Cookie')[0]).toMatch('session=');
   });
 });
