@@ -11,4 +11,11 @@ describe('Current user route', () => {
     expect(response.status).toBe(StatusCodes.OK);
     expect(response.body.currentUser.email).toBe('test@test.com');
   });
+
+  it('responds with null if not authenticated', async () => {
+    const response = await request(app).get('/api/users/current-user').send();
+
+    expect(response.status).toBe(StatusCodes.OK);
+    expect(response.body.currentUser).toBeNull();
+  });
 });
