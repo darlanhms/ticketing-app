@@ -24,4 +24,6 @@ build:
         manual:
           - dest: .
             src: services/client/src/**/*.ts
+          - dest: .
+            src: services/client/src/**/*.tsx
 
