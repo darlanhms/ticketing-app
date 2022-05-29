@@ -16,4 +16,12 @@ build:
         manual:
           - dest: .
             src: services/auth/src/**/*.ts
+    - image: darlanhms/client
+      context: .
+      docker:
+        dockerfile: services/client/Dockerfile
+      sync:
+        manual:
+          - dest: .
+            src: services/client/src/**/*.ts
 
